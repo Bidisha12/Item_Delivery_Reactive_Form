@@ -1,0 +1,115 @@
+body {
+  margin: 2rem;
+  /* background-color: tomato; */
+}
+
+.form-rounded {
+  border-radius: 2rem;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  /* border: 3px solid rgb(128, 0, 17);  */
+}
+
+h2 {
+  text-align: center;
+  color: white;
+}
+
+@media (min-width: 1200px) {
+  .container {
+    width: 600px;
+  }
+}
+
+h6 {
+  color: white;
+}
+
+/* .scroll-to-top {
+  position: fixed;
+  bottom: 15px;
+  right: 15px;
+  opacity: 0;
+  transition: all 0.2s ease-in-out;
+}
+.show-scrollTop {
+  opacity: 1;
+  transition: all 0.2s ease-in-out;
+} */
+
+.card {
+  display: flex;
+  flex-direction: column;
+  background-color: #1d8791;
+  padding: 20px;
+}
+.float-left {
+  color: white;
+}
+.float-right {
+  color: white;
+}
+
+.add-button {
+  background-color: white;
+  color: #ff4600;
+  float: left;
+}
+.procced-button {
+  color: white;
+  background-color: #ff4600;
+  float: right;
+}
+
+.header {
+  margin-left: -10px;
+}
+
+.header1 {
+  margin-left: -140px;
+}
+
+.header2 {
+  margin-left: -300px;
+}
+
+.header3 {
+  margin-left: -350px;
+}
+
+.header4 {
+  margin-left: -340px;
+}
+
+.header5 {
+  margin-left: -280px;
+}
+
+.headerMid {
+  margin-left: 30px;
+}
+
+.SpecificTime {
+  display: flex;
+  flex-direction: column;
+  background-color: #1d8791;
+  padding: 20px;
+}
+
+select, .dropdown {
+  appearance: none;
+}
+
+
+input {
+  margin-bottom : 5px;
+}
+
+/* #basic-addon1 {
+  border-radius: 1rem;
+} */

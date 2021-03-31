@@ -1,0 +1,649 @@
+<form [formGroup]="profileForm" name="form1" (ngSubmit)="onSubmit()">
+  <div class="container">
+    <h2 class="header">How did you get to know about Trukker</h2>
+    <!-- <br/>
+    <br /> -->
+    <select
+      [(ngModel)]="selectionSource"
+      id="source"
+      name="source"
+      formControlName="source"
+      class="form-control form-rounded"
+    >
+      <option [ngValue]="undefined" disabled selected>Select Source</option>
+
+      <option
+        *ngFor="let sourceFilter of sourceData"
+        [ngValue]="sourceFilter.sourceName"
+      >
+        {{ sourceFilter.sourceName }}
+      </option>
+    </select>
+    <div *ngIf="(source.invalid && source.touched) || source.dirty">
+      <small *ngIf="source.errors?.required" class="text-danger"
+        >Source is required.</small
+      >
+    </div>
+    <br /><br>
+
+    <h2 class="header1">Tell Us About Your Delivery:</h2>
+    <!-- <br /><br /> -->
+
+
+    <input
+      type="text"
+      formControlName="pickup"
+      class="form-control form-rounded"
+      placeholder="Pick Up Location"
+      (keydown.enter)="$event.preventDefault()"
+      autocorrect="off"
+      autocapitalize="off"
+      spellcheck="off"
+      #search
+    />
+
+    <div *ngIf="(pickup.invalid && pickup.touched) || pickup.dirty">
+      <small *ngIf="pickup.errors?.required" class="text-danger"
+        >Pickup Location is required.
+      </small>
+      <!-- <small *ngIf="pickup.errors?.minlength" class="text-danger"
+        >Pickup Location must be at least 4 characters long.
+      </small> -->
+    </div>
+    <br />
+
+    <input
+      type="text"
+      formControlName="drop"
+      class="form-control form-rounded"
+      placeholder="Drop Off Location"
+      (keydown.enter)="$event.preventDefault()"
+      autocorrect="off"
+      autocapitalize="off"
+      spellcheck="off"
+      #search1
+
+    />
+
+    <div *ngIf="(drop.invalid && pickup.touched) || drop.dirty">
+      <small *ngIf="drop.errors?.required" class="text-danger"
+        >Drop Location is required.
+      </small>
+      <!-- <small *ngIf="drop.errors?.minlength" class="text-danger"
+        >Drop Location must be at least 4 characters long.
+      </small> -->
+    </div>
+    <br />
+
+    <input
+      type="text"
+      formControlName="name"
+      class="form-control form-rounded"
+      placeholder="Your Name"
+      (keypress)="alphabetsOnly($event)"
+    />
+    <div *ngIf="(name.invalid && name.touched) || name.dirty">
+      <small *ngIf="name.errors?.required" class="text-danger"
+        >Your Name is required.</small
+      >
+      <small *ngIf="name.errors?.minlength" class="text-danger"
+        >Your Name must be at least 3 characters long.
+      </small>
+      <small *ngIf="name.errors?.maxlength" class="text-danger"
+        >Your Name should not exceed 20 characters.
+      </small>
+      <small *ngIf="name.errors?.pattern" class="text-danger"
+      >Enter character only.
+    </small>
+    </div>
+    <br />
+
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="basic-addon1">+971</span>
+      </div>
+      <input
+        type="number"
+        formControlName="number"
+        class="form-control form-rounded"
+        placeholder="Your Mobile Number"
+        (countryChange)="onCountryChange($event)"
+        (keypress)="numberOnly($event)"
+      />
+    </div>
+
+      <!-- //  FOR COUNTRY CODE  c=CONCATENATION WITH MOV-->
+      <!-- <div>
+        <ng-container *ngIf=”countries”>
+          <select (change)=”resetPhoneNumber($event)”      [(ngModel)]=”selectedCountry” [ngModelOptions]=”{standalone: true}”>
+            <option *ngFor=”let country of countries”  [ngValue]=”country.code”>{{country.name}}</option>
+          </select>
+        </ng-container>
+        <input type=”text” (input)=”formatPhoneNumber($event)” formControlName=”phone”>
+      </div>
+      <div>
+      <input type=”submit” value=”Submit” [disabled]=”!register.valid”>
+      </div>
+    </div>
+    <div *ngIf="(number.invalid && name.touched) || number.dirty">
+      <small *ngIf="number.errors?.required" class="text-danger"
+        >Mobile Number is required.</small
+      >
+      <small *ngIf="number.errors?.pattern" class="text-danger"
+        >Mobile Number Should Be 9 Digits.
+      </small>
+    </div> -->
+
+
+    <br />
+    <input
+      type="date"
+      formControlName="date"
+      class="form-control form-rounded"
+      placeholder="date"
+      [min]="minDate | date: 'yyyy-MM-dd'"
+      [max]="maxDate | date: 'yyyy-MM-dd'"
+    />
+    <div *ngIf="(date.invalid && date.touched) || date.dirty">
+      <small *ngIf="date.errors?.required" class="text-danger"
+        >Date is required.</small
+      >
+    </div>
+    <br />
+    <!-- <div
+          class="scroll-to-top"
+          [ngClass]="{ 'show-scrollTop': windowScrolled }"
+        > -->
+
+    <select class="dropdown-toggle"
+      [(ngModel)]="selectionModel"
+      (change)="onChange()"
+      id="category"
+      formControlName="category"
+      name="category"
+      class="form-control form-rounded"
+    >
+      <option [ngValue]="undefined" disabled selected>Choose Category</option>
+      <option *ngFor="let item of main" [ngValue]="item">
+        {{ item.categoryName }}
+      </option>
+    </select>
+    <div *ngIf="(category.invalid && category.touched) || category.dirty">
+      <small *ngIf="category.errors?.required" class="text-danger"
+        >Category is required.</small
+      >
+    </div>
+    <br />
+
+    <div *ngIf="test">
+
+      <select
+        id="subcategory"
+        formControlName="subcategory"
+        name="subcategory"
+        class="form-control form-rounded"
+        (change)="displayform()"
+        [(ngModel)]="selectionModel1"
+      >
+      <option [ngValue]="undefined" disabled selected>Choose Category</option>
+        <option *ngFor="let sub of showData" [ngValue]="sub.subName">
+          {{ sub.subName }}
+        </option>
+      </select>
+      <div
+        *ngIf="
+          (subcategory.invalid && subcategory.touched) || subcategory.dirty
+        "
+      >
+        <small *ngIf="subcategory.errors?.required" class="text-danger"
+          >Sub Category is required.</small
+        >
+      </div>
+    </div>
+
+    <br />
+    <div *ngIf="flag">
+      <div class="card">
+        <div *ngFor="let item of itemsArr; let i=index">
+          <div class="float-left">{{ item.subName }}</div>
+          <div class="float-right">{{ item.rate1 }}</div>
+          <i
+            class="far fa-trash-alt"
+            style="margin: 5px; margin-left: 10px"
+            (click)="deleteHandeler(i)"
+          ></i>
+        </div>
+
+        <div>
+          <div class="float-left">I want my items packed</div>
+          <div class="float-right">0</div>
+        </div>
+
+        <div>
+          <div class="float-left">Items requires Disassembly and Assembly</div>
+          <div class="float-right">0</div>
+        </div>
+
+        <div>
+          <div class="float-left">Total</div>
+          <div class="float-right">AED {{total}}</div>
+        </div>
+
+        <!-- <div>
+          <div class="float-left">Combo Discount</div>
+          <div class="float-right">- AED 0</div>
+        </div> -->
+        <div>
+          <div class="float-left"><h6>Base Quote</h6></div>
+          <div class="float-right">AED {{total}}</div>
+        </div>
+
+        <div>
+          <div class="float-left">VAT (5%)</div>
+          <div class="float-right">AED {{vat}}</div>
+        </div>
+
+        <div>
+          <div class="float-left"><h4>Final Quote</h4></div>
+          <div class="float-right">AED {{final}}</div>
+        </div>
+
+        <!-- <div *ngFor="let item of itemsArr">
+          <button class="btn btn-danger" (click)="deleteHandeler(item)">Delete</button>
+        </div> -->
+      </div>
+    </div>
+
+      <br />
+      <div>
+        <button class="add-button btn btn-light" (click)="scrollToId('category')">
+          Add More Items
+        </button>
+        <button class="procced-button btn btn-danger" (click)="showProceed()">
+          Proceed
+        </button>
+      </div>
+    </div>
+
+
+    <br />
+    <br/>
+    <br/>
+    <!-- <button type="button" class="btn btn-danger" (click)="showProceed()">
+      Proceed
+    </button> -->
+    <br>
+
+    <div class="container">
+
+    <div *ngIf="proceed">
+      <h2 class="header2">Set Preferred Time</h2>
+      <div *ngIf="!show">
+        <!-- <br /> -->
+        <select
+          [(ngModel)]="selectionpickuptime"
+          id="pickuptime"
+          formControlName="pickuptime"
+          name="pickuptime"
+          class="form-control form-rounded"
+        >
+          <option [ngValue]="undefined" disabled selected>
+            Select PickUp Time
+          </option>
+          <option *ngFor="let pick of picktime" [ngValue]="pick.pickName">
+            {{ pick.pickName }}
+          </option>
+        </select>
+        <br />
+        <select
+          [(ngModel)]="selectiondroptime"
+          id="droptime"
+          formControlName="droptime"
+          name="droptime"
+          class="form-control form-rounded "
+        >
+          <option [ngValue]="undefined" disabled selected>
+            Select Drop Time
+          </option>
+          <option *ngFor="let dropt of droptime" [ngValue]="dropt.dropName">
+            {{ dropt.dropName }}
+          </option>
+        </select>
+        <br />
+      </div>
+      &nbsp;&nbsp;
+
+      <!-- <div class="SpecificTime"> -->
+      <div class="row">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+        <h6 class="headerMid">I Want Specific PickUp Time</h6>
+
+        <div class="custom-control custom-switch specificTimeToggler">
+          <input
+            type="checkbox"
+            class="custom-control-input"
+            id="customSwitches2"
+            (click)="toggle()"
+          />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+          <label class="custom-control-label" for="customSwitches2"
+            ><h6>Add AED 34</h6></label
+          >
+        </div>
+      </div>
+      <br />
+      <div *ngIf="show">
+        <div style="display: flex; flex-direction: column; width: 570px">
+          <div>
+            <div style="float: left"><h6>Final Price</h6></div>
+            <div style="float: right"><h6>AED {{subTotal}}</h6></div>
+          </div>
+          <div>
+            <div style="float: left"><h6>VAT(5%)</h6></div>
+            <div style="float: right"><h6>AED {{subVat}}</h6></div>
+          </div>
+          <div>
+            <div style="float: left"><h6>Final Quote</h6></div>
+            <div style="float: right"><h6>AED {{subFinal}}</h6></div>
+          </div>
+          <div>
+            <input
+              type="time"
+              id="appt"
+              name="appt"
+              formControlName="time"
+              class="form-control form-rounded"
+              placeholder="time"
+            />
+          </div>
+        </div>
+      </div>
+      <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+      <div class="form-check form-check-inline">
+        <input
+          class="form-check-input"
+          type="radio"
+          id="seller1"
+          name="usercopy"
+          (click)="copyUserDetails(seller)"
+          />
+          <!-- [(ngModel)]="seller" -->
+          <!-- formControlName="usercopy" -->
+        <label class="form-check-label" for="flexRadioDefault1">
+          <h6>I am a Seller</h6>
+        </label>
+      </div>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+      <div class="form-check form-check-inline">
+        <input
+          class="form-check-input"
+          type="radio"
+          id="buyer1"
+          name="usercopy"
+          (click)="copyUserDetails(buyer)"
+          />
+          <!-- [(ngModel)]="buyer" -->
+          <!-- formControlName="usercopy" -->
+        <label class="form-check-label" for="flexRadioDefault1">
+          <h6>I am a Buyer</h6>
+        </label>
+      </div>
+    </div>
+
+      <br/><br/><br/>
+      <h2 class="header3">Pickup Details</h2>
+      <!-- <br /> -->
+      <input
+        type="text"
+        formControlName="pickUpContactName"
+        class="form-control form-rounded"
+        placeholder="Pickup Contact Name"
+        (keypress)="alphabetsOnly($event)"
+      />
+      <div
+        *ngIf="
+          (pickUpContactName.invalid && pickUpContactName.touched) ||
+          pickUpContactName.dirty
+        "
+      >
+        <small *ngIf="pickUpContactName.errors?.required" class="text-danger"
+          >Pickup Contact Name is required.
+        </small>
+        <small *ngIf="pickUpContactName.errors?.minlength" class="text-danger"
+          >Pickup Contact Name must be at least 3 characters long.
+        </small>
+        <small *ngIf="pickUpContactName.errors?.maxlength" class="text-danger"
+          >Pickup Contact Name should not exceed 20 characters.
+        </small>
+      </div>
+      <br />
+
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon1">+971</span>
+        </div>
+        <input
+          type="number"
+          formControlName="pickUpContactNumber"
+          class="form-control form-rounded"
+          placeholder="Pickup Contact Number"
+          (keypress)="numberOnly($event)"
+        />
+      </div>
+      <div
+        *ngIf="
+          (pickUpContactNumber.invalid && pickUpContactNumber.touched) ||
+          pickUpContactNumber.dirty
+        "
+      >
+        <small *ngIf="pickUpContactNumber.errors?.required" class="text-danger"
+          >Pickup Contact Number is required.</small
+        >
+        <small *ngIf="pickUpContactNumber.errors?.pattern" class="text-danger"
+          >Pickup Contact Number Should Be 9 Digits.
+        </small>
+      </div>
+      <br />
+
+      <input
+        type="text"
+        formControlName="pickUpAddress"
+        class="form-control form-rounded"
+        placeholder="Pickup-Full Address"
+      />
+      <div
+        *ngIf="
+          (pickUpAddress.invalid && pickUpAddress.touched) ||
+          pickUpAddress.dirty
+        "
+      >
+        <small *ngIf="pickUpAddress.errors?.required" class="text-danger"
+          >Pickup Address is required.</small
+        >
+        <small *ngIf="pickUpAddress.errors?.minlength" class="text-danger"
+          >Pickup Address must be at least 4 characters long.</small
+        >
+      </div>
+      <br />
+      <br/><br/>
+
+      <h2 class="header4">Delivery Details</h2>
+      <!-- <br /> -->
+      <input
+        type="text"
+        formControlName="dropContactName"
+        class="form-control form-rounded"
+        placeholder="Drop Contact Name"
+        (keypress)="alphabetsOnly($event)"
+      />
+      <div
+        *ngIf="
+          (dropContactName.invalid && dropContactName.touched) ||
+          dropContactName.dirty
+        "
+      >
+        <small *ngIf="dropContactName.errors?.required" class="text-danger"
+          >Drop Contact Name is required.
+        </small>
+        <small *ngIf="dropContactName.errors?.minlength" class="text-danger"
+          >Drop Contact Name must be at least 4 characters long.
+        </small>
+        <small *ngIf="dropContactName.errors?.maxlength" class="text-danger"
+          >Drop Contact Name should not exceed 15 characters.
+        </small>
+      </div>
+      <br />
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon1">+971</span>
+        </div>
+        <input
+          type="number"
+          formControlName="dropContactNumber"
+          class="form-control form-rounded"
+          placeholder="Drop Contact Number"
+        />
+      </div>
+      <div
+        *ngIf="
+          (dropContactNumber.invalid && name.touched) || dropContactNumber.dirty
+        "
+      >
+        <small *ngIf="dropContactNumber.errors?.required" class="text-danger"
+          >Drop Contact Number is required.</small
+        >
+        <small *ngIf="dropContactNumber.errors?.pattern" class="text-danger"
+          >Drop Contact Number Should Be 9 Digits.
+        </small>
+      </div>
+      <br />
+
+      <input
+        type="text"
+        formControlName="dropAddress"
+        class="form-control form-rounded"
+        placeholder="Drop Address"
+      />
+      <div
+        *ngIf="
+          (dropAddress.invalid && dropAddress.touched) || dropAddress.dirty
+        "
+      >
+        <small *ngIf="dropAddress.errors?.required" class="text-danger"
+          >Drop Address is required.</small
+        >
+        <small *ngIf="dropAddress.errors?.minlength" class="text-danger"
+          >Drop Address must be at least 4 characters long.</small
+        >
+      </div>
+      <br />
+      <textarea
+        type="text"
+        formControlName="itemDesc"
+        class="form-control form-rounded"
+        placeholder="Item Description (Optional)"
+        rows="3"
+      ></textarea>
+      <div *ngIf="(itemDesc.invalid && itemDesc.touched) || itemDesc.dirty">
+        <small *ngIf="itemDesc.errors?.required" class="text-danger"
+          >Item Description is required.</small
+        >
+        <small *ngIf="itemDesc.errors?.minlength" class="text-danger"
+          >Item Description must be at least 4 characters long.</small
+        >
+      </div>
+      <br /><br />
+      <br/>
+
+
+      <h2 class="header5">Your contact details</h2>
+      <!-- <br /> -->
+      <input
+        type="email"
+        formControlName="customerEmail"
+        class="form-control form-rounded col-xs-4"
+        placeholder="Customer Email"
+      />
+
+      <div
+        *ngIf="
+          (customerEmail.invalid && customerEmail.touched) ||
+          customerEmail.dirty
+        "
+      >
+        <small *ngIf="customerEmail.errors?.required" class="text-danger"
+          >Customer email is required</small
+        >
+        <small *ngIf="customerEmail.errors?.pattern" class="text-danger"
+          >Please provide a valid email address</small
+        >
+      </div>
+
+      <br />
+      <div class="custom-control custom-switch">
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          id="customSwitches3"
+          (click)="termsToggle()"
+        />
+        <label class="custom-control-label" for="customSwitches3"
+          >I accept
+          <a
+            href="http://test.trukker.ae/TruKKer_UAE_User%20T&C_160815.pdf"
+            target="_blank"
+            >Terms and Conditions</a
+          ></label
+        >
+      </div>
+      <span *ngIf="!terms">
+        <small class="text-danger">Please Accept Terms & Conditions</small>
+      </span>
+
+      <div class="center">
+        <button
+          type="submit"
+          class="btn btn-danger"
+          style="background-color: #ff4600"
+          (click)="onSubmit()"
+          [disabled]="!profileForm.valid"
+        >
+          Book
+        </button>
+      </div>
+    </div>
+  <!-- </div> -->
+  </form>
+
+
+
+<!-- <hr /> -->
+
+<!-- <p>
+  <b>FORM VALUES: {{ profileForm.value | json }}</b>
+</p>
+
+<div class="center">
+  <p>
+    <button type="submit" class="btn btn-primary" (click)="updateProfile()">
+      Update
+    </button>
+  </p>
+  &nbsp; &nbsp; &nbsp;
+  <p>
+    <button type="submit" class="btn btn-dark" (click)="resetProfile()">
+      Reset
+    </button>
+  </p>
+</div> -->
